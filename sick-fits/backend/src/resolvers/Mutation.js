@@ -1,10 +1,15 @@
 const Mutations = {
-  createDog(parent, args, context, info) {
-    global.dogs = global.dogs || [];
-    const newDog = { name: args.name }
-    console.log(args)
-    global.dogs.push(newDog);
-    return newDog;
+  async createItem(parent, args, ctx, info) {
+
+    // ctx = context
+    const item = await ctx.db.mutation.createItem({
+      // bc all the args are going into the data, we can spread them instead of assigning each
+      data: {
+        ...args
+      }
+      // passing info makes sure that the db returns the query
+    }, info);
+    return item;
   }
 };
 
