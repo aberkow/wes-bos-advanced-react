@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import Router from 'next/router';
 import Form from './styles/Form';
 import formatMoney from '../lib/formatMoney';
+import ErrorMessage from './ErrorMessage';
 
 const CREATE_ITEM_MUTATION = gql`
   mutation CREATE_ITEM_MUTATION(
@@ -47,17 +49,37 @@ class CreateItem extends Component {
     // this is a computed property name
     this.setState({ [name]: val })
   }
+  
   render() {
     return (
+      
+      /*
+        The CREATE_ITEM_MUTATION exposes the createItem function which is defined in the backend graphql.schema.
+        inside the submit handler, it doesn't take in any arguments.
+        those are passed to it from the variables prop on the Mutation component.
+        those variables are the object collected from this.state.
+      */
+
       <Mutation mutation={CREATE_ITEM_MUTATION} variables={this.state}>
         {
           (createItem, { loading, error }) => (
-            <Form onSubmit={(evt) => {
+            <Form onSubmit={ async (evt) => {
               // prevent the page from reloading
               evt.preventDefault();
-              console.log(this.state)
+              // createItem exposed via CREATE_ITEM_MUTATION
+              const res = await createItem();
+
+              // go to the single item page for the item that was created.
+              console.log(res)
+              Router.push({
+                pathname: '/item',
+                query: { id: res.data.createItem.id }
+              })
             }}>
-              <fieldset>
+              <ErrorMessage error={error} />
+              {/* fieldset can take a disabled property which if true 
+              will prevent people from using the form during loading. */}
+              <fieldset disabled={loading} aria-busy={loading}>
                 <label htmlFor="title">
                   Title
               <input
