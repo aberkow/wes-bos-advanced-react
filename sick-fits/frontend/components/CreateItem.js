@@ -50,6 +50,29 @@ class CreateItem extends Component {
     this.setState({ [name]: val })
   }
   
+
+  uploadFile = async (evt) => {
+
+    // might be nice to prevent form submission while the image is being uploaded.
+    // just in case it hasn't finished by the time people are done filling out the form
+
+    const files = evt.target.files;
+    const data = new FormData();
+    data.append('file', files[0]);
+    data.append('upload_preset', 'sickfits');
+
+    const res = await fetch('https://api.cloudinary.com/v1_1/dpubonry5/image/upload', {
+      method: 'POST',
+      body: data
+    })
+
+    const file = await res.json();
+    this.setState({
+      image: file.secure_url,
+      largeImage: file.eager[0].secure_url
+    });
+  }
+
   render() {
     return (
       
@@ -80,16 +103,30 @@ class CreateItem extends Component {
               {/* fieldset can take a disabled property which if true 
               will prevent people from using the form during loading. */}
               <fieldset disabled={loading} aria-busy={loading}>
+                <label htmlFor="file">
+                  Image
+                <input
+                  type="file"
+                  id="file"
+                  name="file"
+                  placeholder="Upload an Image"
+                  onChange={this.uploadFile}
+                  required />
+                  {
+                    // show a preview image on upload
+                    this.state.image && <img width="200" src={this.state.image} alt="upload preview" />
+                  }
+                </label>
                 <label htmlFor="title">
                   Title
-              <input
-                    type="text"
-                    id="title"
-                    name="title"
-                    placeholder="Title"
-                    value={this.state.title}
-                    onChange={this.handleChange}
-                    required />
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  placeholder="Title"
+                  value={this.state.title}
+                  onChange={this.handleChange}
+                  required />
                 </label>
                 <label htmlFor="price">
                   Price
