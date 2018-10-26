@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import styled from 'styled-components';
 
 import Item from './Item';
+import Pagination from './Pagination';
 
 const ALL_ITEMS_QUERY = gql`
   query ALL_ITEMS_QUERY {
@@ -30,33 +31,36 @@ const ItemsList = styled.div`
   margin: 0 auto;
 `
 
-export default class Items extends Component {
+class Items extends Component {
   // the only child of the Query component must be a function
   render() {
     return (
       <Center>
-        <Query query={ALL_ITEMS_QUERY}>
-          {
-            ({ data, error, loading }) => {
-              if (loading) return <p>Loading...</p>
-              if (error) return <p>Error: {error.message}</p>
-              // return a list of items
-              return (
-                <ItemsList>
-                  { 
-                    // iterate over each item
-                    data.items.map(item => {
-                      return <Item key={item.id} item={item} />
-                    })
-                  }
-                </ItemsList>
-              )
+        <Pagination page={this.props.page} />
+          <Query query={ALL_ITEMS_QUERY}>
+            {
+              ({ data, error, loading }) => {
+                if (loading) return <p>Loading...</p>
+                if (error) return <p>Error: {error.message}</p>
+                // return a list of items
+                return (
+                  <ItemsList>
+                    { 
+                      // iterate over each item
+                      data.items.map(item => {
+                        return <Item key={item.id} item={item} />
+                      })
+                    }
+                  </ItemsList>
+                )
+              }
             }
-          }
-        </Query>
+          </Query>
+        <Pagination page={this.props.page} />
       </Center>
     )
   }
 }
 
+export default Items;
 export { ALL_ITEMS_QUERY };
