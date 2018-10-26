@@ -10,4 +10,5 @@ type Query {
   items: [Item]!
   # ItemWhereUniqueInput can be found in prisma.graphql
   item(where: ItemWhereUniqueInput!): Item
+  itemsConnection(where: ItemWhereInput): ItemConnection!
 }
