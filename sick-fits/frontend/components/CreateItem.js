@@ -83,7 +83,9 @@ class CreateItem extends Component {
         those variables are the object collected from this.state.
       */
 
-      <Mutation mutation={CREATE_ITEM_MUTATION} variables={this.state}>
+      <Mutation 
+        mutation={CREATE_ITEM_MUTATION} 
+        variables={this.state}>
         {
           (createItem, { loading, error }) => (
             <Form onSubmit={ async (evt) => {

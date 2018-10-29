@@ -4,10 +4,14 @@ type Mutation {
   createItem(title: String, description: String, price: Int, image: String, largeImage: String): Item!
   updateItem(id: ID!, title: String, description: String, price: Int): Item!
   deleteItem(id: ID!): Item
+  signup(email: String!, password: String!, name: String!): User!
 }
 
 type Query {
-  items: [Item]!
+  # items just like this returns all items
+  # items: [Item]!
+  # items like this allows for pagination.
+  items (where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, first: Int): [Item]!
   # ItemWhereUniqueInput can be found in prisma.graphql
   item(where: ItemWhereUniqueInput!): Item
   itemsConnection(where: ItemWhereInput): ItemConnection!
