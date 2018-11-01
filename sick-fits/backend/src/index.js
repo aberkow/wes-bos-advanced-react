@@ -1,5 +1,5 @@
 const cookieParser = require('cookie-parser');
-
+const jwt = require('jsonwebtoken');
 require('dotenv').config({ path: 'variables.env' });
 const createServer = require('./createServer');
 const db = require('./db');
@@ -8,6 +8,21 @@ const server = createServer();
 
 // use express middleware for cookies (JWT) and populate current user
 server.express.use(cookieParser());
+
+// decode the jwt so we can get the user ID on each request
+server.express.use((req, res, next) => {
+  // the token cookie is created in the signup mutation
+  // there may be other cookies as well which is why this is destructured.
+  const { token } = req.cookies;
+
+  if (token) {
+    const { userId } = jwt.verify(token, process.env.APP_SECRET);
+    // put the userId onto the request for future requests to access
+    req.userId = userId;
+  }
+
+  next();
+})
 
 
 server.start({
