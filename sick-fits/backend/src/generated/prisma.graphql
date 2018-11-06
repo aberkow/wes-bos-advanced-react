@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/adam-berkowitz-80e07f/sick-fits/dev
-# timestamp: Mon Oct 29 2018 08:32:53 GMT-0400 (EDT)
+# timestamp: Tue Nov 06 2018 08:43:16 GMT-0500 (EST)
 
 type AggregateItem {
   count: Int!
@@ -131,7 +131,7 @@ input ItemUpdateInput {
   price: Int
 }
 
-input ItemUpdateManyInput {
+input ItemUpdateManyMutationInput {
   title: String
   description: String
   image: String
@@ -435,8 +435,8 @@ type Mutation {
   deleteItem(where: ItemWhereUniqueInput!): Item
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertItem(where: ItemWhereUniqueInput!, create: ItemCreateInput!, update: ItemUpdateInput!): Item!
-  updateManyUsers(data: UserUpdateManyInput!, where: UserWhereInput): BatchPayload!
-  updateManyItems(data: ItemUpdateManyInput!, where: ItemWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  updateManyItems(data: ItemUpdateManyMutationInput!, where: ItemWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyItems(where: ItemWhereInput): BatchPayload!
 }
@@ -503,7 +503,7 @@ type User implements Node {
   email: String!
   password: String!
   resetToken: String
-  restTokenExpiry: Float
+  resetTokenExpiry: Float
   permissions: [Permission!]!
 }
 
@@ -522,7 +522,7 @@ input UserCreateInput {
   email: String!
   password: String!
   resetToken: String
-  restTokenExpiry: Float
+  resetTokenExpiry: Float
   permissions: UserCreatepermissionsInput
 }
 
@@ -550,8 +550,8 @@ enum UserOrderByInput {
   password_DESC
   resetToken_ASC
   resetToken_DESC
-  restTokenExpiry_ASC
-  restTokenExpiry_DESC
+  resetTokenExpiry_ASC
+  resetTokenExpiry_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -564,7 +564,7 @@ type UserPreviousValues {
   email: String!
   password: String!
   resetToken: String
-  restTokenExpiry: Float
+  resetTokenExpiry: Float
   permissions: [Permission!]!
 }
 
@@ -612,16 +612,16 @@ input UserUpdateInput {
   email: String
   password: String
   resetToken: String
-  restTokenExpiry: Float
+  resetTokenExpiry: Float
   permissions: UserUpdatepermissionsInput
 }
 
-input UserUpdateManyInput {
+input UserUpdateManyMutationInput {
   name: String
   email: String
   password: String
   resetToken: String
-  restTokenExpiry: Float
+  resetTokenExpiry: Float
   permissions: UserUpdatepermissionsInput
 }
 
@@ -838,28 +838,28 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   resetToken_not_ends_with: String
-  restTokenExpiry: Float
+  resetTokenExpiry: Float
 
   """All values that are not equal to given value."""
-  restTokenExpiry_not: Float
+  resetTokenExpiry_not: Float
 
   """All values that are contained in given list."""
-  restTokenExpiry_in: [Float!]
+  resetTokenExpiry_in: [Float!]
 
   """All values that are not contained in given list."""
-  restTokenExpiry_not_in: [Float!]
+  resetTokenExpiry_not_in: [Float!]
 
   """All values less than the given value."""
-  restTokenExpiry_lt: Float
+  resetTokenExpiry_lt: Float
 
   """All values less than or equal the given value."""
-  restTokenExpiry_lte: Float
+  resetTokenExpiry_lte: Float
 
   """All values greater than the given value."""
-  restTokenExpiry_gt: Float
+  resetTokenExpiry_gt: Float
 
   """All values greater than or equal the given value."""
-  restTokenExpiry_gte: Float
+  resetTokenExpiry_gte: Float
 }
 
 input UserWhereUniqueInput {
