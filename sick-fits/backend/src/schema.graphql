@@ -36,4 +36,5 @@ type Query {
   itemsConnection(where: ItemWhereInput): ItemConnection!
   # the current user
   me: User
+  users: [User]!
 }
