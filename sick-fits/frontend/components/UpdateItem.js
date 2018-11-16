@@ -66,8 +66,6 @@ class UpdateItem extends Component {
   
   updateItem = async (evt, updateItemMutation) => {
     evt.preventDefault();
-    console.log('updating item');
-    console.log(this.state)
     // the id is not included in the state.
     const res = await updateItemMutation({
       variables: {
@@ -76,7 +74,6 @@ class UpdateItem extends Component {
         ...this.state
       }
     });
-    console.log('updated')
   }
 
   render() {
