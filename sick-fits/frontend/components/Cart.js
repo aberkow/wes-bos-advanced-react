@@ -30,14 +30,13 @@ const Cart = () => {
       {
         ({ data: { me } }) => {
           if (!me) return null;
-          console.log(me)
           return (
             <Mutation mutation={TOGGLE_CART_MUTATION}>
               {
                 (toggleCart) => (
                   <Query query={LOCAL_STATE_QUERY}>
                     {
-                      ({ data }) => console.log(data) || (
+                      ({ data }) => (
                         <CartStyles open={data.cartOpen}>
                           <header>
                             <CloseButton onClick={toggleCart}
