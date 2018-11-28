@@ -35,7 +35,7 @@ const DELETE_ITEM_MUTATION = gql`
         {
           (deleteItem, { error }) => (
             <button onClick={() => {
-              if (confirm('Are you sure you want to delte this')) {
+              if (confirm('Are you sure you want to delete this')) {
                 deleteItem().catch(err => {
                   alert(err.message);
                 });

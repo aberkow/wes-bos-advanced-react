@@ -51,6 +51,7 @@ class RemoveFromCart extends Component {
     cache.writeQuery({ query: CURRENT_USER_QUERY, data });
   }
   render() {
+    console.log(this.props)
     return (
       <Mutation 
         mutation={REMOVE_FROM_CART_MUTATION}
