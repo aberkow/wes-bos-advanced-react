@@ -36,3 +36,27 @@ type CartItem {
   item: Item # relationship to the Item
   user: User! # relationship to the User
 }
+
+# can't reference the Item type bc things might change.
+# so the OrderItem type needs to be a separate copy of the Item.
+
+type OrderItem {
+  id: ID! @unique
+  title: String!
+  description: String!
+  image: String!
+  largeImage: String!
+  price: Int!
+  quantity: Int! @default(value: 1)
+  user: User
+}
+
+type Order {
+  id: ID! @unique
+  items: [OrderItem!]!
+  total: Int!
+  user: User!
+  charge: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}

@@ -29,6 +29,37 @@ const Query = {
 
     // 3 - if so, query all users
     return ctx.db.query.users({}, info);
+  },
+  async order(parent, args, ctx, info) {
+    // 1 - make sure they're logged in
+    if (!ctx.request.userId) {
+      throw new Error('You are not logged in.')
+    }
+    // 2 - query the current order
+    const order = await ctx.db.query.order({
+      where: { id: args.id }
+    }, info)
+    // 3 - check if they have permission to see the order
+    const ownsOrder = order.user.id === ctx.request.userId;
+    const hasPermission = ctx.request.user.permissions.includes('ADMIN')
+
+    if (!ownsOrder || !hasPermission) {
+      throw new Error ('You can not see this order');
+    }
+
+    // 4 - return the order
+    return order;
+  },
+  async orders(parent, args, ctx, info) {
+    // 1 - make sure they're logged in
+    if (!ctx.request.userId) {
+      throw new Error('You are not logged in.')
+    }
+    return ctx.db.query.orders({
+      where: {
+        id: ctx.request.userId
+      }
+    }, info)
   }
   // but for things like this where there's not authentication, or changes,
   // use forwardTo to send the query directly to the db.
